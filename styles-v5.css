@@ -194,17 +194,10 @@ body {
 .hero-content {
     position: relative;
     z-index: 1;
-    max-width: 1400px;
-    margin: 0;
-    padding: 20px 20px 0 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 20px 0 20px;
     color: white;
-    display: flex;
-    align-items: center;
-    min-height: calc(100vh - 60px);
-}
-
-.hero-text {
-    max-width: 600px;
 }
 
 .hero-text h1 {
@@ -212,6 +205,7 @@ body {
     font-weight: 700;
     line-height: 1.2;
     margin-bottom: 1.5rem;
+    max-width: 700px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
@@ -220,6 +214,7 @@ body {
     font-weight: 400;
     margin-bottom: 3rem;
     opacity: 0.9;
+    max-width: 500px;
     line-height: 1.6;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 }
@@ -608,9 +603,6 @@ section {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     border: 1px solid #e2e8f0;
     transition: all 0.3s ease;
-    display: flex;
-    gap: 2rem;
-    align-items: stretch;
 }
 
 .service-card:hover {
@@ -618,18 +610,12 @@ section {
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
 }
 
-.service-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
 .service-icon {
-    width: 140px;
-    height: 140px;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1.5rem;
     border-radius: 12px;
     overflow: hidden;
-    flex-shrink: 0;
 }
 
 .service-icon img {
@@ -1151,7 +1137,6 @@ section {
         flex-direction: column;
         padding: 1rem 0;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        z-index: 1001;
     }
     
     .nav-menu.nav-menu-active {
@@ -1187,12 +1172,11 @@ section {
     
     .nav-container {
         height: 50px;
-        position: relative;
     }
     
     /* Fix mobile logo size */
     .nav-brand h1 {
-        font-size: 1rem !important;
+        font-size: 1.2rem !important;
         line-height: 1.2;
     }
     
@@ -1201,20 +1185,12 @@ section {
     }
     
     .hero-content {
-        padding: 30px 20px 0 20px;
-        margin: 0 auto;
-        max-width: 1200px;
-        display: block;
-        min-height: auto;
-    }
-    
-    .hero-text {
-        max-width: 100%;
+        padding: 15px 20px 0 20px;
     }
     
     /* Fix mobile hero text size */
     .hero-text h1 {
-        font-size: 1.5rem !important;
+        font-size: 1.8rem !important;
         line-height: 1.2;
         margin-bottom: 1rem;
     }
@@ -1284,50 +1260,6 @@ section {
     
     .services-grid {
         grid-template-columns: 1fr;
-    }
-
-    .service-card {
-        padding: 0.4rem 0.6rem;
-        gap: 0.6rem;
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: center !important;
-    }
-
-    .service-content {
-        flex: 1;
-        order: 1;
-    }
-
-    .service-card h3 {
-        font-size: 0.4rem !important;
-        margin-bottom: 0.05rem !important;
-        font-weight: 600;
-        line-height: 1.0 !important;
-    }
-
-    .service-card ul {
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    .service-card li {
-        font-size: 0.35rem !important;
-        padding: 0.01rem 0 !important;
-        padding-left: 0.4rem !important;
-        line-height: 0.9 !important;
-        margin: 0 !important;
-    }
-
-    .service-card li::before {
-        font-size: 0.3rem !important;
-    }
-
-    .service-icon {
-        width: 55px !important;
-        height: 55px !important;
-        flex-shrink: 0;
-        order: 2;
     }
     
     .trust-indicators {
@@ -1740,18 +1672,16 @@ section {
         gap: 0.5rem;
         flex-wrap: nowrap;
         overflow: hidden;
-        justify-content: space-between;
-        align-items: center;
     }
     
     /* Hide title completely when collapsed on mobile */
     .chatbot-container.minimized .chat-title {
-        display: none !important;
+        display: none;
     }
     
     /* Hide status text on mobile, keep only green dot */
     .chatbot-container.minimized .chat-status span {
-        display: none !important;
+        display: none;
     }
     
     /* Show full title when expanded on mobile */

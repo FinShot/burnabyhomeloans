@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Debug Test</title>
+    <style>
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+        
+        .chatbot-container.minimized {
+            height: 60px;
+        }
+        
+        .chat-header {
+            background: #1a365d;
+            color: white;
+            padding: 15px;
+            border-radius: 12px 12px 0 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .collapsed-chat-input {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            margin: 0 10px;
+        }
+        
+        .minimized .collapsed-chat-input {
+            display: flex;
+        }
+        
+        .chatbot-container:not(.minimized) .collapsed-chat-input {
+            display: none;
+        }
+        
+        .collapsed-input-wrapper {
+            display: flex;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 5px;
+            flex: 1;
+        }
+        
+        .collapsed-chat-input-field {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            flex: 1;
+            outline: none;
+        }
+        
+        .collapsed-chat-input-field::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .collapsed-send-btn {
+            background: #3b82f6;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+        
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .chat-input-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            outline: none;
+        }
+        
+        .chat-send-btn {
+            background: #3b82f6;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .minimized .chat-messages,
+        .minimized .chat-input-area {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chatbot Debug Test</h1>
+    <p>Check the console (F12) for debug messages. Try clicking the chatbot header, typing in the collapsed input, and pressing Enter.</p>
+    
+    <!-- Simplified Chatbot -->
+    <div class="chatbot-container minimized" id="chatbotContainer">
+        <div class="chat-header">
+            <div class="chat-title">Test Chatbot</div>
+            
+            <div class="collapsed-chat-input" id="collapsedChatInput">
+                <div class="collapsed-input-wrapper">
+                    <input type="text" class="collapsed-chat-input-field" id="collapsedInput" placeholder="Type a message..." onclick="event.stopPropagation();">
+                    <button class="collapsed-send-btn" onclick="event.stopPropagation();">→</button>
+                </div>
+            </div>
+            
+            <button class="toggle-btn" id="toggleBtn">+</button>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <p>Chat messages will appear here...</p>
+        </div>
+        
+        <div class="chat-input-area">
+            <div class="chat-input-wrapper">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Type a message...">
+                <button class="chat-send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('=== CHATBOT DEBUG TEST ===');
+        
+        class TestChatbot {
+            constructor() {
+                console.log('TestChatbot constructor called');
+                this.isMinimized = true;
+                this.initializeElements();
+                this.bindEvents();
+            }
+
+            initializeElements() {
+                console.log('Initializing elements...');
+                this.chatContainer = document.querySelector('.chatbot-container');
+                this.chatMessages = document.querySelector('.chat-messages');
+                this.chatInput = document.querySelector('.chat-input');
+                this.chatSendBtn = document.querySelector('.chat-send-btn');
+                this.toggleBtn = document.querySelector('.toggle-btn');
+                this.chatHeader = document.querySelector('.chat-header');
+                this.collapsedInput = document.querySelector('.collapsed-chat-input-field');
+                this.collapsedSendBtn = document.querySelector('.collapsed-send-btn');
+                
+                console.log('Elements found:', {
+                    chatContainer: !!this.chatContainer,
+                    collapsedInput: !!this.collapsedInput,
+                    collapsedSendBtn: !!this.collapsedSendBtn,
+                    toggleBtn: !!this.toggleBtn,
+                    chatHeader: !!this.chatHeader
+                });
+            }
+
+            bindEvents() {
+                console.log('Binding events...');
+                
+                // Toggle chatbot
+                if (this.toggleBtn) {
+                    this.toggleBtn.addEventListener('click', (e) => {
+                        console.log('Toggle button clicked');
+                        e.stopPropagation();
+                        this.toggleChatbot();
+                    });
+                }
+                
+                if (this.chatHeader) {
+                    this.chatHeader.addEventListener('click', () => {
+                        console.log('Chat header clicked');
+                        this.toggleChatbot();
+                    });
+                }
+
+                // Send message events  
+                if (this.collapsedSendBtn) {
+                    this.collapsedSendBtn.addEventListener('click', (e) => {
+                        console.log('Collapsed send button clicked');
+                        e.stopPropagation();
+                        this.sendMessage(true);
+                    });
+                }
+                
+                if (this.chatSendBtn) {
+                    this.chatSendBtn.addEventListener('click', () => {
+                        console.log('Chat send button clicked');
+                        this.sendMessage(false);
+                    });
+                }
+                
+                // Enter key to send
+                if (this.collapsedInput) {
+                    this.collapsedInput.addEventListener('keypress', (e) => {
+                        console.log('Key pressed in collapsed input:', e.key);
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                            console.log('Enter pressed in collapsed input - sending message');
+                            e.preventDefault();
+                            this.sendMessage(true);
+                        }
+                    });
+                    
+                    this.collapsedInput.addEventListener('click', (e) => {
+                        console.log('Collapsed input clicked');
+                        e.stopPropagation();
+                    });
+                }
+
+                if (this.chatInput) {
+                    this.chatInput.addEventListener('keypress', (e) => {
+                        console.log('Key pressed in chat input:', e.key);
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                            console.log('Enter pressed in chat input - sending message');
+                            e.preventDefault();
+                            this.sendMessage(false);
+                        }
+                    });
+                }
+                
+                console.log('Event binding complete');
+            }
+
+            toggleChatbot() {
+                console.log('toggleChatbot called, current state minimized:', this.isMinimized);
+                this.isMinimized = !this.isMinimized;
+                this.chatContainer.classList.toggle('minimized', this.isMinimized);
+                console.log('New state minimized:', this.isMinimized);
+                
+                if (!this.isMinimized) {
+                    this.chatInput.focus();
+                }
+            }
+
+            sendMessage(fromCollapsed = false) {
+                console.log('sendMessage called, fromCollapsed:', fromCollapsed);
+                const input = fromCollapsed ? this.collapsedInput : this.chatInput;
+                const message = input.value.trim();
+                
+                console.log('Message to send:', message);
+                
+                if (!message) {
+                    console.log('No message to send');
+                    return;
+                }
+
+                // Clear input
+                input.value = '';
+
+                // If sending from collapsed state, expand chatbot
+                if (fromCollapsed) {
+                    console.log('Expanding chatbot after collapsed message');
+                    this.toggleChatbot();
+                }
+
+                // Add message to chat
+                const messageDiv = document.createElement('div');
+                messageDiv.innerHTML = `<p><strong>You:</strong> ${message}</p>`;
+                this.chatMessages.appendChild(messageDiv);
+                
+                // Add response
+                const responseDiv = document.createElement('div');
+                responseDiv.innerHTML = `<p><strong>Bot:</strong> You said "${message}"</p>`;
+                this.chatMessages.appendChild(responseDiv);
+                
+                console.log('Message sent and response added');
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing test chatbot...');
+            window.testChatbot = new TestChatbot();
+            console.log('Test chatbot initialized');
+        });
+    </script>
+</body>
+</html> 

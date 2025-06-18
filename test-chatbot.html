@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Test - Local Version</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div style="padding: 2rem; text-align: center;">
+        <h1>🧪 Chatbot Test (Local Version)</h1>
+        <p>This version simulates chatbot responses for local testing.</p>
+        <p><strong>The real chatbot will work when deployed to Hostinger with PHP support.</strong></p>
+    </div>
+
+    <!-- Chatbot Interface -->
+    <div class="chatbot-container minimized">
+        <div class="chat-header">
+            <div class="chat-title">💬 Burnaby Home Loans Assistant</div>
+            <div class="chat-status">
+                <span class="status-dot"></span>
+                <span>Online</span>
+            </div>
+            <button class="toggle-btn">−</button>
+        </div>
+
+        <div class="collapsed-chat-input">
+            <div class="collapsed-input-wrapper">
+                <input type="text" class="collapsed-chat-input-field" placeholder="Ask about mortgages...">
+                <button class="collapsed-send-btn">→</button>
+            </div>
+        </div>
+
+        <div class="chat-messages"></div>
+
+        <div class="chat-input-area">
+            <div class="quick-actions">
+                <button class="quick-action">What are your rates?</button>
+                <button class="quick-action">How to get pre-approved?</button>
+                <button class="quick-action">First-time buyer programs</button>
+            </div>
+            <div class="chat-input-wrapper">
+                <input type="text" class="chat-input" placeholder="Type your message...">
+                <button class="chat-send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // TEST VERSION - Simulates chatbot responses locally
+        class TestChatbot {
+            constructor() {
+                this.messages = [];
+                this.isMinimized = true;
+                this.isLoading = false;
+                this.initializeElements();
+                this.bindEvents();
+                this.addWelcomeMessage();
+            }
+
+            initializeElements() {
+                this.chatContainer = document.querySelector('.chatbot-container');
+                this.chatMessages = document.querySelector('.chat-messages');
+                this.chatInput = document.querySelector('.chat-input');
+                this.chatSendBtn = document.querySelector('.chat-send-btn');
+                this.toggleBtn = document.querySelector('.toggle-btn');
+                this.chatHeader = document.querySelector('.chat-header');
+                this.collapsedInput = document.querySelector('.collapsed-chat-input-field');
+                this.collapsedSendBtn = document.querySelector('.collapsed-send-btn');
+                this.quickActions = document.querySelectorAll('.quick-action');
+            }
+
+            bindEvents() {
+                this.toggleBtn.addEventListener('click', () => this.toggleChatbot());
+                this.chatHeader.addEventListener('click', () => this.toggleChatbot());
+                this.chatSendBtn.addEventListener('click', () => this.sendMessage());
+                this.collapsedSendBtn.addEventListener('click', () => this.sendMessage(true));
+                
+                this.chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+
+                this.collapsedInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage(true);
+                    }
+                });
+
+                this.quickActions.forEach(action => {
+                    action.addEventListener('click', () => {
+                        const message = action.textContent.trim();
+                        this.sendMessage(false, message);
+                    });
+                });
+            }
+
+            toggleChatbot() {
+                this.isMinimized = !this.isMinimized;
+                this.chatContainer.classList.toggle('minimized', this.isMinimized);
+                
+                if (!this.isMinimized) {
+                    this.chatInput.focus();
+                }
+            }
+
+            addWelcomeMessage() {
+                const welcomeMessage = {
+                    role: 'assistant',
+                    content: "👋 Hi! I'm your Burnaby Home Loans assistant (TEST MODE). I can help you with mortgage rates, pre-approvals, and more. This is a local test - the real AI will work on Hostinger!"
+                };
+                this.displayMessage(welcomeMessage);
+            }
+
+            async sendMessage(fromCollapsed = false, customMessage = null) {
+                if (this.isLoading) return;
+
+                const input = fromCollapsed ? this.collapsedInput : this.chatInput;
+                const message = customMessage || input.value.trim();
+                
+                if (!message) return;
+
+                if (!customMessage) {
+                    input.value = '';
+                }
+
+                if (fromCollapsed) {
+                    this.toggleChatbot();
+                }
+
+                const userMessage = { role: 'user', content: message };
+                this.messages.push(userMessage);
+                this.displayMessage(userMessage);
+
+                this.setLoading(true);
+
+                // Simulate AI response with delay
+                setTimeout(() => {
+                    const response = this.getTestResponse(message);
+                    const assistantMessage = { role: 'assistant', content: response };
+                    this.messages.push(assistantMessage);
+                    this.displayMessage(assistantMessage);
+                    this.setLoading(false);
+                }, 1500);
+            }
+
+            getTestResponse(message) {
+                const msg = message.toLowerCase();
+                
+                if (msg.includes('rate') || msg.includes('interest')) {
+                    return "🏦 Our current rates are competitive! For a 5-year fixed mortgage, we're seeing rates around 5.5%. Variable rates are approximately 5.8%. However, rates change daily, so I'd recommend getting a personalized quote. Would you like me to connect you with one of our mortgage specialists?";
+                }
+                
+                if (msg.includes('pre-approved') || msg.includes('preapproved')) {
+                    return "✅ Getting pre-approved is a great first step! You'll need: recent pay stubs, T4s, bank statements, and employment letter. The process typically takes 24-48 hours. Pre-approval gives you confidence when house hunting and shows sellers you're serious. Would you like to start your pre-approval application?";
+                }
+                
+                if (msg.includes('first time') || msg.includes('first-time')) {
+                    return "🏡 Great news! We have excellent programs for first-time buyers including the First-Time Home Buyer Incentive and various down payment assistance programs. You might qualify for as little as 5% down. Let's discuss your situation - what's your target price range in Burnaby?";
+                }
+                
+                if (msg.includes('burnaby') || msg.includes('metrotown') || msg.includes('brentwood')) {
+                    return "🌟 Burnaby is an excellent choice! Popular areas include Metrotown (great for condos and transit), Brentwood (family-friendly), and Deer Lake (quiet residential). Average home prices vary by area. I can help you understand financing options for your preferred neighborhood. Which area interests you most?";
+                }
+                
+                return "Thank you for your question! As a TEST VERSION, I can only provide basic responses. The real chatbot on Hostinger will be powered by AI and give much more detailed, personalized advice. For now, try asking about 'rates', 'pre-approval', or 'first-time buyers' to see sample responses!";
+            }
+
+            displayMessage(message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-message ${message.role}-message`;
+                
+                if (message.role === 'assistant') {
+                    messageDiv.innerHTML = `
+                        <div class="bot-avatar">🏠</div>
+                        <div class="message-content">${message.content}</div>
+                    `;
+                } else {
+                    messageDiv.innerHTML = `
+                        <div class="message-content">${message.content}</div>
+                    `;
+                }
+
+                this.chatMessages.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            setLoading(loading) {
+                this.isLoading = loading;
+                this.chatSendBtn.disabled = loading;
+                this.collapsedSendBtn.disabled = loading;
+                
+                if (loading) {
+                    const typingDiv = document.createElement('div');
+                    typingDiv.className = 'chat-message bot-message typing-indicator';
+                    typingDiv.innerHTML = `
+                        <div class="bot-avatar">🏠</div>
+                        <div class="message-content">
+                            <div class="typing-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                        </div>
+                    `;
+                    this.chatMessages.appendChild(typingDiv);
+                    this.scrollToBottom();
+                } else {
+                    const typingIndicator = this.chatMessages.querySelector('.typing-indicator');
+                    if (typingIndicator) {
+                        typingIndicator.remove();
+                    }
+                }
+            }
+
+            scrollToBottom() {
+                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+            }
+        }
+
+        // Initialize test chatbot
+        document.addEventListener('DOMContentLoaded', function() {
+            window.testChatbot = new TestChatbot();
+        });
+    </script>
+</body>
+</html> 

@@ -195,7 +195,7 @@
     }
     </script>
     
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=20241217">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -438,55 +438,63 @@
                 
                 <div class="services-grid">
                     <article class="service-card">
+                        <div class="service-content">
+                            <h3>Home Purchase</h3>
+                            <ul>
+                                <li>First-time buyers (5% down)</li>
+                                <li>24-hour pre-approval</li>
+                                <li>Rates from 5.19% APR</li>
+                                <li>All Burnaby neighborhoods</li>
+                            </ul>
+                        </div>
                         <div class="service-icon">
                             <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=126&q=80" alt="Home purchase mortgages Burnaby">
                         </div>
-                        <h3>Home Purchase</h3>
-                        <ul>
-                            <li>First-time buyers (5% down)</li>
-                            <li>24-hour pre-approval</li>
-                            <li>Rates from 5.19% APR</li>
-                            <li>All Burnaby neighborhoods</li>
-                        </ul>
                     </article>
                     
                     <article class="service-card">
+                        <div class="service-content">
+                            <h3>Refinancing</h3>
+                            <ul>
+                                <li>Lower your rate</li>
+                                <li>Cash-out up to 80% LTV</li>
+                                <li>Debt consolidation</li>
+                                <li>Renovation financing</li>
+                            </ul>
+                        </div>
                         <div class="service-icon">
                             <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=126&q=80" alt="Mortgage refinancing Burnaby">
                         </div>
-                        <h3>Refinancing</h3>
-                        <ul>
-                            <li>Lower your rate</li>
-                            <li>Cash-out up to 80% LTV</li>
-                            <li>Debt consolidation</li>
-                            <li>Renovation financing</li>
-                        </ul>
                     </article>
                     
                     <article class="service-card">
+                        <div class="service-content">
+                            <h3>Renewals</h3>
+                            <ul>
+                                <li>Rate comparison</li>
+                                <li>Lender switching</li>
+                                <li>120-day rate hold</li>
+                                <li>Term optimization</li>
+                            </ul>
+                        </div>
                         <div class="service-icon">
                             <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=126&q=80" alt="Mortgage renewals Burnaby">
                         </div>
-                        <h3>Renewals</h3>
-                        <ul>
-                            <li>Rate comparison</li>
-                            <li>Lender switching</li>
-                            <li>120-day rate hold</li>
-                            <li>Term optimization</li>
-                        </ul>
                     </article>
                     
                     <article class="service-card">
+                        <div class="service-content">
+                            <h3>Investment Properties</h3>
+                            <ul>
+                                <li>Rental properties</li>
+                                <li>Portfolio financing</li>
+                                <li>Commercial mortgages</li>
+                                <li>BRRRR strategy</li>
+                            </ul>
+                        </div>
                         <div class="service-icon">
                             <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=126&q=80" alt="Investment property financing Burnaby">
                         </div>
-                        <h3>Investment Properties</h3>
-                        <ul>
-                            <li>Rental properties</li>
-                            <li>Portfolio financing</li>
-                            <li>Commercial mortgages</li>
-                            <li>BRRRR strategy</li>
-                        </ul>
                     </article>
                 </div>
             </div>
@@ -749,23 +757,24 @@
 
     <!-- Connected Chatbot Interface - Starts Collapsed -->
     <div class="chatbot-container minimized" id="chatbotContainer">
-        <div class="chat-header" onclick="toggleChat()">
+        <div class="chat-header">
             <div class="chat-title">
-                Burnaby Mortgage Assistant
+                <span class="desktop-title">Burnaby Mortgage Assistant</span>
+                <span class="mobile-title">BHL Assistant</span>
             </div>
             
             <!-- Collapsed Chat Input (inside the header) -->
             <div class="collapsed-chat-input" id="collapsedChatInput">
                 <div class="collapsed-input-wrapper">
-                    <input type="text" class="collapsed-chat-input-field" id="collapsedInput" placeholder="Ask about Burnaby mortgages..." onkeypress="handleCollapsedChatEnter(event)" onclick="event.stopPropagation();">
-                    <button class="collapsed-send-btn" onclick="sendCollapsedMessage(); event.stopPropagation();">→</button>
+                                    <input type="text" class="collapsed-chat-input-field" id="collapsedInput" placeholder="Ask about Burnaby mortgages..." onclick="event.stopPropagation();">
+                <button class="collapsed-send-btn" onclick="event.stopPropagation();">→</button>
                 </div>
             </div>
             
             <div class="chat-status">
                 <div class="status-dot"></div>
                 <span>Online</span>
-                <button class="toggle-btn" id="toggleBtn" onclick="toggleChat(); event.stopPropagation();">+</button>
+                <button class="toggle-btn" id="toggleBtn">+</button>
             </div>
         </div>
         
@@ -783,17 +792,17 @@
                 </div>
             </div>
             <div class="quick-actions">
-                <div class="quick-action" onclick="askQuickQuestion('What are current rates?')">Current Rates</div>
-                <div class="quick-action" onclick="askQuickQuestion('Calculate my payment')">Calculator</div>
-                <div class="quick-action" onclick="askQuickQuestion('Tell me about Burnaby neighborhoods')">Neighborhoods</div>
-                <div class="quick-action" onclick="askQuickQuestion('How do I apply?')">Apply Now</div>
+                <div class="quick-action">Current Rates</div>
+                <div class="quick-action">Calculator</div>
+                <div class="quick-action">Neighborhoods</div>
+                <div class="quick-action">Apply Now</div>
             </div>
         </div>
         
         <div class="chat-input-area">
             <div class="chat-input-wrapper">
-                <input type="text" class="chat-input" id="chatInput" placeholder="Ask about mortgages in Burnaby..." onkeypress="handleChatEnter(event)">
-                <button class="chat-send-btn" onclick="sendMessage()">→</button>
+                <input type="text" class="chat-input" id="chatInput" placeholder="Ask about mortgages in Burnaby...">
+                <button class="chat-send-btn">→</button>
             </div>
         </div>
     </div>
@@ -807,8 +816,8 @@
                     <p>Licensed mortgage brokerage serving Burnaby and the Lower Mainland with professional, personalized service.</p>
                     <div class="footer-contact">
                         <p>Phone: (604) 555-LOAN</p>
-                        <p>Email: robotricco@gmail.com</p>
-                        <p>Web: burnabyhomeloans.ca</p>
+                        <p>Email: info@burnabyhomeloans.com</p>
+                        <p>Web: burnabyhomeloans.com</p>
                     </div>
                 </div>
                 
@@ -847,6 +856,6 @@
         </div>
     </footer>
 
-    <script src="scripts.js"></script>
+    <script src="scripts.js?v=20241217"></script>
 </body>
 </html> 
