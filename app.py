@@ -168,4 +168,8 @@ if __name__ == '__main__':
     logger.info(f"Debug mode: {debug_mode}")
     logger.info(f"OpenAI API key configured: {bool(OPENAI_API_KEY)}")
     
-    app.run(debug=debug_mode, host='0.0.0.0', port=port) 
+    app.run(debug=debug_mode, host='0.0.0.0', port=port)
+else:
+    # Production mode when run via gunicorn
+    logger.info("Starting in production mode via gunicorn")
+    logger.info(f"OpenAI API key configured: {bool(OPENAI_API_KEY)}") 
