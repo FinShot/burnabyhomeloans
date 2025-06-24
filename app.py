@@ -20,7 +20,7 @@ load_dotenv()
 app = Flask(__name__)
 
 # Configure CORS (adjust for production)
-CORS(app, origins="*")
+CORS(app, origins=["*"], methods=["POST", "GET", "OPTIONS"], allow_headers=["Content-Type"])
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
