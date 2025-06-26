@@ -119,11 +119,10 @@ def chatbot_api():
             
             ai_message = response.choices[0].message.content.strip()
 
-            # Return successful response (matching PHP format exactly)
+            # Return response in the format expected by the frontend
             return jsonify({
-                'success': True,
-                'message': ai_message,
-                'timestamp': datetime.now().isoformat()
+                'role': 'assistant',
+                'content': ai_message
             })
 
         except openai.error.OpenAIError as e:
