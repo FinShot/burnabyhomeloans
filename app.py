@@ -16,6 +16,8 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
+print("API Key loaded:", os.getenv('OPENAI_API_KEY'))
+
 # Initialize Flask app
 app = Flask(__name__)
 

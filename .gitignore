@@ -3,6 +3,13 @@
 .env.local
 .env.production
 
+# API Keys and sensitive credentials
+openai_api_key.txt
+openai_api_key
+api_keys.txt
+secrets.txt
+*.key
+
 # Logs
 *.log
 npm-debug.log*
