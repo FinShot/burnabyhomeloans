@@ -12,6 +12,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import openai
 from dotenv import load_dotenv
+import requests
 
 # Load environment variables
 load_dotenv()
@@ -151,6 +152,43 @@ def health_check():
         'timestamp': datetime.now().isoformat(),
         'api_configured': bool(OPENAI_API_KEY)
     })
+
+@app.route('/api/calendly-events', methods=['GET'])
+def calendly_events():
+    """
+    Fetch Calendly event types for the authenticated user.
+    Requires CALENDLY_API_KEY and CALENDLY_USER_URI in environment variables.
+    """
+    calendly_api_key = os.getenv('CALENDLY_API_KEY')
+    calendly_user_uri = os.getenv('CALENDLY_USER_URI')  # e.g. https://api.calendly.com/users/USER_ID
+
+    if not calendly_api_key or not calendly_user_uri:
+        return jsonify({'error': 'Calendly API key or user URI not configured'}), 500
+
+    try:
+        # Fetch event types for the user
+        url = f'https://api.calendly.com/event_types?user={calendly_user_uri}'
+        headers = {
+            'Authorization': f'Bearer {calendly_api_key}',
+            'Content-Type': 'application/json'
+        }
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+        # Return only relevant fields to frontend
+        event_types = [
+            {
+                'name': event.get('name'),
+                'scheduling_url': event.get('scheduling_url'),
+                'duration': event.get('duration'),
+                'description': event.get('description')
+            }
+            for event in data.get('collection', [])
+        ]
+        return jsonify({'event_types': event_types})
+    except Exception as e:
+        logger.error(f"Calendly API error: {str(e)}")
+        return jsonify({'error': 'Failed to fetch Calendly events'}), 500
 
 @app.errorhandler(404)
 def not_found(error):
