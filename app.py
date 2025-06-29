@@ -8,7 +8,7 @@ import os
 import json
 import logging
 from datetime import datetime
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import openai
 from dotenv import load_dotenv
@@ -58,6 +58,10 @@ Guidelines:
 - If you don't know something specific, recommend they speak with our mortgage specialists
 
 Remember: You represent a professional mortgage brokerage. Be helpful but always recommend speaking with our licensed mortgage professionals for personalized advice."""
+
+@app.route('/')
+def serve_index():
+    return send_from_directory('.', 'index.html')
 
 @app.route('/chatbot-api', methods=['POST'])
 def chatbot_api():
