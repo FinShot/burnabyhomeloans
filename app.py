@@ -13,6 +13,9 @@ from flask_cors import CORS
 import openai
 from dotenv import load_dotenv
 import requests
+import re
+
+print("=== THIS IS THE CORRECT APP.PY ===")
 
 # Load environment variables
 load_dotenv()
@@ -68,6 +71,31 @@ def chatbot_api():
     """
     Handle chatbot API requests - replicates the PHP functionality exactly
     """
+    data = request.get_json()
+    user_message = data.get('message', '').lower()
+
+    print("User message received:", user_message)
+
+    # Robust booking intent detection
+    booking_patterns = [
+        r'book', r'schedule', r'appointment', r'meeting', r'get an appointment',
+        r'see a broker', r'meet', r'consult', r'call', r'talk to', r'speak to', r'visit'
+    ]
+    matched = False
+    for pattern in booking_patterns:
+        if re.search(pattern, user_message):
+            print(f"Matched pattern: {pattern}")
+            matched = True
+    if matched:
+        return jsonify({
+            "success": True,
+            "message": (
+                "You can book a time directly here:<br>"
+                "<a href='https://calendly.com/steve-r-ennis/15min' target='_blank'>15-minute Discovery Call</a><br>"
+                "<a href='https://calendly.com/steve-r-ennis/30min' target='_blank'>30-minute Mortgage Consultation</a>"
+            )
+        })
+
     try:
         # Validate request method (Flask handles this automatically, but keeping for consistency)
         if request.method != 'POST':
