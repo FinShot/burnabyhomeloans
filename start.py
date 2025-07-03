@@ -37,9 +37,10 @@ def main():
     
     print("✅ Environment variables configured")
     print("🚀 Starting Flask application...")
-    print("📡 API will be available at: http://localhost:5000")
-    print("🩺 Health check: http://localhost:5000/health")
-    print("💬 Chatbot endpoint: http://localhost:5000/chatbot-api")
+    # print("📡 API will be available at: http://localhost:5000")
+    # print("🩺 Health check: http://localhost:5000/health")
+    # print("💬 Chatbot endpoint: http://localhost:5000/chatbot-api")
+    # In production, use your Render URL (e.g., https://burnabyhomeloans.onrender.com)
     print("\nPress Ctrl+C to stop the server")
     print("=" * 40)
     

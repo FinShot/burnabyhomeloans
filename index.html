@@ -44,158 +44,33 @@
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "LocalBusiness",
-                "@id": "https://burnabyhomeloans.ca/#localbusiness",
-                "name": "Burnaby Home Loans",
-                "alternateName": "Burnaby Home Loans - Licensed Mortgage Brokerage",
-                "description": "Professional mortgage brokerage serving Burnaby, BC with competitive rates, expert guidance, and personalized service for home purchases, refinancing, and renewals.",
-                "url": "https://burnabyhomeloans.ca/",
-                "telephone": "(604) 555-LOAN",
-                "email": "info@burnabyhomeloans.com",
-                "address": {
-                    "@type": "PostalAddress",
-                    "streetAddress": "4500 Kingsway",
-                    "addressLocality": "Burnaby",
-                    "addressRegion": "BC",
-                    "postalCode": "V5H 2A9",
-                    "addressCountry": "CA"
-                },
-                "geo": {
-                    "@type": "GeoCoordinates",
-                    "latitude": 49.2488,
-                    "longitude": -122.9805
-                },
-                "openingHours": [
-                    "Mo-Fr 09:00-18:00",
-                    "Sa 10:00-16:00"
-                ],
-                "priceRange": "$$",
-                "image": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                "sameAs": [
-                    "https://www.facebook.com/burnabyhomeloans",
-                    "https://www.linkedin.com/company/burnabyhomeloans",
-                    "https://www.youtube.com/burnabyhomeloans"
-                ],
-                "areaServed": [
-                    {
-                        "@type": "City",
-                        "name": "Burnaby",
-                        "containedInPlace": {
-                            "@type": "State",
-                            "name": "British Columbia"
-                        }
-                    }
-                ],
-                "serviceArea": [
-                    "Metrotown",
-                    "Brentwood",
-                    "Deer Lake",
-                    "Burnaby Heights",
-                    "Capitol Hill",
-                    "Willingdon Heights"
-                ],
-                "hasOfferCatalog": {
-                    "@type": "OfferCatalog",
-                    "name": "Mortgage Services",
-                    "itemListElement": [
-                        {
-                            "@type": "Offer",
-                            "itemOffered": {
-                                "@type": "Service",
-                                "name": "First-Time Home Buyer Mortgages",
-                                "description": "Specialized mortgage solutions for first-time buyers in Burnaby with minimum 5% down payment options"
-                            }
-                        },
-                        {
-                            "@type": "Offer",
-                            "itemOffered": {
-                                "@type": "Service",
-                                "name": "Mortgage Refinancing",
-                                "description": "Competitive refinancing options to lower payments or access home equity"
-                            }
-                        },
-                        {
-                            "@type": "Offer",
-                            "itemOffered": {
-                                "@type": "Service",
-                                "name": "Investment Property Financing",
-                                "description": "Financing solutions for investment properties in Burnaby's growing market"
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                "@type": "Organization",
-                "@id": "https://burnabyhomeloans.ca/#organization",
-                "name": "Burnaby Home Loans",
-                "url": "https://burnabyhomeloans.ca/",
-                "logo": {
-                    "@type": "ImageObject",
-                    "url": "https://burnabyhomeloans.ca/logo.png",
-                    "width": 300,
-                    "height": 100
-                },
-                "contactPoint": {
-                    "@type": "ContactPoint",
-                    "telephone": "(604) 555-LOAN",
-                    "contactType": "customer service",
-                    "areaServed": "CA",
-                    "availableLanguage": ["English", "French"]
-                }
-            },
-            {
-                "@type": "WebSite",
-                "@id": "https://burnabyhomeloans.ca/#website",
-                "url": "https://burnabyhomeloans.ca/",
-                "name": "Burnaby Home Loans",
-                "description": "Professional mortgage brokerage serving Burnaby, BC",
-                "publisher": {
-                    "@id": "https://burnabyhomeloans.ca/#organization"
-                },
-                "potentialAction": [
-                    {
-                        "@type": "SearchAction",
-                        "target": {
-                            "@type": "EntryPoint",
-                            "urlTemplate": "https://burnabyhomeloans.ca/?s={search_term_string}"
-                        },
-                        "query-input": "required name=search_term_string"
-                    }
-                ]
-            },
-            {
-                "@type": "FinancialService",
-                "name": "Mortgage Brokerage Services",
-                "description": "Comprehensive mortgage brokerage services including home purchases, refinancing, renewals, and investment property financing in Burnaby, BC",
-                "provider": {
-                    "@id": "https://burnabyhomeloans.ca/#organization"
-                },
-                "areaServed": {
-                    "@type": "City",
-                    "name": "Burnaby",
-                    "containedInPlace": {
-                        "@type": "State",
-                        "name": "British Columbia"
-                    }
-                },
-                "offers": [
-                    {
-                        "@type": "Offer",
-                        "name": "5-Year Fixed Mortgage Rate",
-                        "price": "5.19",
-                        "priceCurrency": "CAD",
-                        "description": "Competitive 5-year fixed mortgage rate for qualified applicants"
-                    }
-                ]
-            }
-        ]
+        "@type": "LocalBusiness",
+        "name": "Burnaby Home Loans",
+        "url": "https://burnabyhomeloans.ca/",
+        "description": "Professional mortgage brokerage serving Burnaby, BC with competitive rates, expert guidance, and personalized service.",
+        "telephone": "(604) 555-LOAN",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "4500 Kingsway",
+            "addressLocality": "Burnaby",
+            "addressRegion": "BC",
+            "postalCode": "V5H 2A9",
+            "addressCountry": "CA"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 49.2488,
+            "longitude": -122.9805
+        },
+        "openingHours": [
+            "Mo-Fr 09:00-18:00",
+            "Sa 10:00-16:00"
+        ],
+        "image": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
     }
     </script>
     
-    <link rel="stylesheet" href="styles.css?v=20241217">
+    <link rel="stylesheet" href="static/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -235,7 +110,7 @@
                 <p class="hero-subtitle">Expert guidance, competitive rates, and personalized service for all your home financing needs in Burnaby, British Columbia</p>
                 <div class="hero-stats">
                     <div class="stat">
-                        <span class="stat-number">5.19%</span>
+                        <span class="stat-number stat-number-5yr">5.19%</span>
                         <span class="stat-label">Starting Rate</span>
                     </div>
                     <div class="stat">
@@ -272,7 +147,6 @@
                             <tr>
                                 <th>Mortgage Type</th>
                                 <th>Interest Rate</th>
-                                <th>APR</th>
                                 <th>Term</th>
                                 <th>Best For</th>
                             </tr>
@@ -280,22 +154,19 @@
                         <tbody>
                             <tr>
                                 <td>5-Year Fixed (Most Popular)</td>
-                                <td>5.19%</td>
-                                <td>5.19%</td>
+                                <td class="table-rate-5yr">5.19%</td>
                                 <td>5 Years</td>
                                 <td>Stable payments, rate protection</td>
                             </tr>
                             <tr>
                                 <td>Variable Rate</td>
-                                <td>5.95%</td>
-                                <td>5.95%</td>
+                                <td class="table-rate-var">5.95%</td>
                                 <td>Variable</td>
                                 <td>Flexible payments, potential rate decreases</td>
                             </tr>
                             <tr>
                                 <td>3-Year Fixed</td>
-                                <td>5.39%</td>
-                                <td>5.39%</td>
+                                <td class="table-rate-3yr">5.39%</td>
                                 <td>3 Years</td>
                                 <td>Short-term stability, renewal flexibility</td>
                             </tr>
@@ -310,7 +181,7 @@
                             <span class="rate-badge">Most Popular Choice</span>
                         </div>
                         <div class="rate-display">
-                            <span class="rate-number">5.19%</span>
+                            <span class="rate-number rate-number-5yr">5.19%</span>
                             <span class="rate-label">APR</span>
                         </div>
                         <ul class="rate-features">
@@ -326,7 +197,7 @@
                             <h3>Variable Rate Mortgage</h3>
                         </div>
                         <div class="rate-display">
-                            <span class="rate-number">5.95%</span>
+                            <span class="rate-number rate-number-var">5.95%</span>
                             <span class="rate-label">APR</span>
                         </div>
                         <ul class="rate-features">
@@ -342,7 +213,7 @@
                             <h3>3-Year Fixed Mortgage</h3>
                         </div>
                         <div class="rate-display">
-                            <span class="rate-number">5.39%</span>
+                            <span class="rate-number rate-number-3yr">5.39%</span>
                             <span class="rate-label">APR</span>
                         </div>
                         <ul class="rate-features">
@@ -657,7 +528,7 @@
                         <h3>Rates & Approval</h3>
                         <article class="faq-item">
                             <h4>Current rates in Burnaby?</h4>
-                            <p>5-year fixed: 5.19% APR | Variable: 5.95% APR | 3-year fixed: 5.39% APR</p>
+                            <p id="rate-summary-text">5-year fixed: 5.19% APR | Variable: 5.95% APR | 3-year fixed: 5.39% APR</p>
                         </article>
                         <article class="faq-item">
                             <h4>How fast is approval?</h4>
@@ -754,7 +625,7 @@
     </div>
 
     <!-- Connected Chatbot Interface - Starts Collapsed -->
-    <div class="chatbot-container minimized" id="chatbotContainer">
+    <div class="chatbot-container" id="chatbotContainer">
         <div class="chat-header">
             <div class="chat-title">
                 <span class="desktop-title">AI Mortgage Assistant</span>
@@ -777,22 +648,9 @@
         </div>
         
         <div class="chat-messages" id="chatMessages">
-            <div class="chat-message bot-message">
-                <div class="bot-avatar">AI</div>
-                <div class="message-content">
-                    Welcome to Burnaby Home Loans! I'm your AI mortgage assistant.<br><br>
-                    I can help you with:<br>
-                    • Current mortgage rates<br>
-                    • Burnaby neighborhood info<br>
-                    • Mortgage calculations<br>
-                    • Application process<br><br>
-                    What would you like to know about getting a mortgage in Burnaby?
-                </div>
-            </div>
             <div class="quick-actions">
                 <div class="quick-action">Current Rates</div>
                 <div class="quick-action">Calculator</div>
-                <div class="quick-action">Neighborhoods</div>
                 <div class="quick-action">Apply Now</div>
             </div>
         </div>
@@ -854,6 +712,6 @@
         </div>
     </footer>
 
-    <script src="scripts.js?v=20250624"></script>
+    <script src="static/scripts.js"></script>
 </body>
 </html> 

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Management - Burnaby Home Loans</title>
+    <link rel="stylesheet" href="styles.css?v=20241217">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2563eb;
+        }
+        .stat-label {
+            color: #6b7280;
+            margin-top: 5px;
+        }
+        .leads-table {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .leads-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .leads-table th,
+        .leads-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .leads-table th {
+            background: #f9fafb;
+            font-weight: 600;
+        }
+        .lead-score {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.875em;
+            font-weight: 500;
+        }
+        .lead-score.hot {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+        .lead-score.warm {
+            background: #fffbeb;
+            color: #d97706;
+        }
+        .lead-score.cold {
+            background: #f0f9ff;
+            color: #2563eb;
+        }
+        .export-btn {
+            background: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        .export-btn:hover {
+            background: #1d4ed8;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+        .rate-form-row {
+            display: flex;
+            align-items: center;
+            gap: 1em;
+        }
+        .rate-form-row label {
+            margin-bottom: 0;
+            white-space: nowrap;
+        }
+        .rate-form-row input {
+            width: 4em;
+            margin-left: 0.3em;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1>Lead Management Dashboard</h1>
+        <p>View and manage leads from the chatbot qualification system.</p>
+
+        <div style="margin-bottom: 32px; padding: 20px; background: #f9fafb; border-radius: 8px; max-width: 500px;">
+            <h2 style="margin-top:0;">Current Mortgage Rates</h2>
+            <form id="ratesForm" onsubmit="return updateRates(event)">
+                <div class="rate-form-row">
+                    <label>5-Year Fixed Rate (%): <input type="number" step="0.01" id="fixedRateInput"></label>
+                    <label>Variable Rate (%): <input type="number" step="0.01" id="variableRateInput"></label>
+                    <label>3-Year Fixed Rate (%): <input type="number" step="0.01" id="threeYearFixedRateInput"></label>
+                    <button id="updateRatesBtn">Update Rates</button>
+                </div>
+            </form>
+            <div id="ratesStatus" style="margin-top: 10px; color: #2563eb;"></div>
+            <div id="ratesUpdatedAt" style="margin-top: 4px; color: #6b7280; font-size: 0.95em;"></div>
+        </div>
+
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalLeads">-</div>
+                <div class="stat-label">Total Leads</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="hotLeads">-</div>
+                <div class="stat-label">Hot Leads</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="warmLeads">-</div>
+                <div class="stat-label">Warm Leads</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="coldLeads">-</div>
+                <div class="stat-label">Cold Leads</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="recentLeads">-</div>
+                <div class="stat-label">Last 7 Days</div>
+            </div>
+        </div>
+        
+        <button class="export-btn" onclick="exportLeads()">Export to CSV</button>
+        
+        <div class="leads-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Session ID</th>
+                        <th>Annual Income</th>
+                        <th>Down Payment</th>
+                        <th>Credit Score</th>
+                        <th>Timeline</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="leadsTableBody">
+                    <tr>
+                        <td colspan="7" class="loading">Loading leads...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Load stats and leads on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadRates();
+            loadStats();
+            loadLeads();
+        });
+
+        async function loadRates() {
+            try {
+                const response = await fetch('/api/rates');
+                const data = await response.json();
+                if (data.fixed_rate !== undefined) {
+                    document.getElementById('fixedRateInput').value = data.fixed_rate;
+                }
+                if (data.updated_at) {
+                    document.getElementById('ratesUpdatedAt').textContent = 'Last updated: ' + formatDate(data.updated_at);
+                }
+            } catch (error) {
+                document.getElementById('ratesStatus').textContent = 'Error loading rates.';
+            }
+        }
+
+        async function updateRates(event) {
+            event.preventDefault();
+            const fixedRate = document.getElementById('fixedRateInput').value;
+            const variableRate = document.getElementById('variableRateInput').value;
+            const threeYearFixedRate = document.getElementById('threeYearFixedRateInput').value;
+            document.getElementById('ratesStatus').textContent = 'Updating...';
+            try {
+                const response = await fetch('/api/rates', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fixed_rate: fixedRate, variable_rate: variableRate, three_year_fixed_rate: threeYearFixedRate })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    document.getElementById('ratesStatus').textContent = 'Rates updated!';
+                    loadRates();
+                } else {
+                    document.getElementById('ratesStatus').textContent = 'Failed to update rates.';
+                }
+            } catch (error) {
+                document.getElementById('ratesStatus').textContent = 'Error updating rates.';
+            }
+            return false;
+        }
+
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/leads/stats');
+                const data = await response.json();
+                
+                document.getElementById('totalLeads').textContent = data.total_leads || 0;
+                document.getElementById('hotLeads').textContent = data.leads_by_score?.hot || 0;
+                document.getElementById('warmLeads').textContent = data.leads_by_score?.warm || 0;
+                document.getElementById('coldLeads').textContent = data.leads_by_score?.cold || 0;
+                document.getElementById('recentLeads').textContent = data.recent_leads || 0;
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        async function loadLeads() {
+            try {
+                const response = await fetch('/api/leads');
+                const data = await response.json();
+                
+                const tbody = document.getElementById('leadsTableBody');
+                tbody.innerHTML = '';
+                
+                if (data.leads && data.leads.length > 0) {
+                    data.leads.forEach(lead => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${formatDate(lead.created_at)}</td>
+                            <td>${lead.session_id}</td>
+                            <td>${formatCurrency(lead.annual_income)}</td>
+                            <td>${formatCurrency(lead.down_payment)}</td>
+                            <td>${lead.credit_score || '-'}</td>
+                            <td>${lead.timeline || '-'}</td>
+                            <td><span class="lead-score ${lead.lead_score}">${lead.lead_score}</span></td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="7" class="loading">No leads found</td></tr>';
+                }
+            } catch (error) {
+                console.error('Error loading leads:', error);
+                document.getElementById('leadsTableBody').innerHTML = 
+                    '<tr><td colspan="7" class="loading">Error loading leads</td></tr>';
+            }
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-CA') + ' ' + date.toLocaleTimeString('en-CA', {hour: '2-digit', minute: '2-digit'});
+        }
+
+        function formatCurrency(amount) {
+            if (!amount) return '-';
+            return new Intl.NumberFormat('en-CA', {
+                style: 'currency',
+                currency: 'CAD'
+            }).format(amount);
+        }
+
+        function exportLeads() {
+            window.open('/api/leads/export', '_blank');
+        }
+
+        // Refresh data every 30 seconds
+        setInterval(() => {
+            loadStats();
+            loadLeads();
+        }, 30000);
+    </script>
+</body>
+</html> 
